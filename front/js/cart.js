@@ -185,22 +185,22 @@ function getForm() {
         validFirstName(this);
     });
 
-    // Ecoute de la modification du prénom
+    // Ecoute de la modification du nom
     form.lastName.addEventListener('change', function() {
         validLastName(this);
     });
 
-    // Ecoute de la modification du prénom
+    // Ecoute de la modification de l'adresse
     form.address.addEventListener('change', function() {
         validAddress(this);
     });
 
-    // Ecoute de la modification du prénom
+    // Ecoute de la modification de la ville
     form.city.addEventListener('change', function() {
         validCity(this);
     });
 
-    // Ecoute de la modification du prénom
+    // Ecoute de la modification de l'email
     form.email.addEventListener('change', function() {
         validEmail(this);
     });
