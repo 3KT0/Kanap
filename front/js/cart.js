@@ -136,14 +136,9 @@ function modifyQtt() {
   for (let k = 0; k < qttModif.length; k++) {
     qttModif[k].addEventListener("change", (event) => {
       event.preventDefault();
-
-      //Selection de l'element à modifier en fonction de son id ET sa couleur
-      let quantityModif = produitLocalStorage[k].quantiteProduit;
       let qttModifValue = qttModif[k].valueAsNumber;
 
-      const resultFind = produitLocalStorage.find(
-        (el) => el.qttModifValue !== quantityModif
-      );
+      const resultFind = produitLocalStorage[k]
 
       resultFind.quantiteProduit = qttModifValue;
       produitLocalStorage[k].quantiteProduit = resultFind.quantiteProduit;
