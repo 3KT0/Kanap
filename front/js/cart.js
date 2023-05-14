@@ -189,7 +189,7 @@ function getForm() {
   );
   let charRegExp = new RegExp("^[a-zA-Z ,.'-]+$");
   let addressRegExp = new RegExp(
-    "^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+"
+    "^([1-9][0-9]*(?:-[1-9][0-9]*)*)[\\s,-]+(?:(bis|ter|qua)[\\s,-]+)?([\\w]+[\\-\\w]*)[\\s,]+([-\\w].+)$"
   );
 
   // Ecoute de la modification du prénom
@@ -217,18 +217,20 @@ function getForm() {
     validEmail(this);
   });
 
-  //validation du prénom
-  const validFirstName = function (inputFirstName) {
-    let firstNameErrorMsg = inputFirstName.nextElementSibling;
-    if (charRegExp.test(inputFirstName.value)) {
-      firstNameErrorMsg.innerHTML = "";
-    } else {
-      firstNameErrorMsg.innerHTML = "Veuillez renseigner ce champ.";
-    }
-  };
+  //validation du Prénom
+function validFirstName (inputFirstName) {
+  let firstNameErrorMsg = inputFirstName.nextElementSibling;
+  if (charRegExp.test(inputFirstName.value)) {
+    firstNameErrorMsg.innerHTML = "";
+  } else {
+    firstNameErrorMsg.innerHTML = "Veuillez renseigner ce champ.";
+  }
+};
+
+
 
   //validation du nom
-  const validLastName = function (inputLastName) {
+function validLastName (inputLastName) {
     let lastNameErrorMsg = inputLastName.nextElementSibling;
 
     if (charRegExp.test(inputLastName.value)) {
@@ -239,7 +241,7 @@ function getForm() {
   };
 
   //validation de l'adresse
-  const validAddress = function (inputAddress) {
+function validAddress (inputAddress) {
     let addressErrorMsg = inputAddress.nextElementSibling;
 
     if (addressRegExp.test(inputAddress.value)) {
@@ -250,7 +252,7 @@ function getForm() {
   };
 
   //validation de la ville
-  const validCity = function (inputCity) {
+function validCity (inputCity) {
     let cityErrorMsg = inputCity.nextElementSibling;
 
     if (charRegExp.test(inputCity.value)) {
@@ -261,7 +263,7 @@ function getForm() {
   };
 
   //validation de l'email
-  const validEmail = function (inputEmail) {
+function validEmail (inputEmail) {
     let emailErrorMsg = inputEmail.nextElementSibling;
 
     if (emailRegExp.test(inputEmail.value)) {
