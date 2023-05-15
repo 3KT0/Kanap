@@ -1,11 +1,11 @@
+const colorElt = document.querySelector("#colors");
+const quantityElt = document.querySelector("#quantity");
+
 let str = window.location.href;
 let url = new URL(str);
 let idProduct = url.searchParams.get("id");
 console.log(idProduct);
 let article = "";
-
-const colorPicked = document.querySelector("#colors");
-const quantityPicked = document.querySelector("#quantity");
 
 getArticle();
 
@@ -60,31 +60,46 @@ function getPost(article) {
     productColors.value = colors;
     productColors.innerHTML = colors;
   }
-  addToCart(article);
+  document.querySelector("#addToCart").addEventListener("click",() => {
+    addToCart(article);
+  });
+
+
+  //addToCart(article);
+}
+
+function getQuantity(quantity) {
+  if (quantity <= 0 || quantity > 100) {
+    quantity = 1;
+    alert("La quantité devant être comprise entre 1 et 100, celle ci a été ajusté à 1");
+  }
+  return quantity;
+}
+
+function checkColor(color) {
+  if (color === "") {
+    alert("Une couleur doit être choisie");
+    return false;
+  }
+  return true;
 }
 
 //Gestion du panier
 function addToCart(article) {
-  const btn_envoyerPanier = document.querySelector("#addToCart");
+  //const btn_envoyerPanier = document.querySelector("#addToCart");
 
   //Ecouter le panier avec 2 conditions couleur non nulle et quantité entre 1 et 100
-  btn_envoyerPanier.addEventListener("click", (event) => {
-    if (
-      quantityPicked.value > 0 &&
-      quantityPicked.value <= 100 &&
-      quantityPicked.value != 0
-    ) {
-      //Recupération du choix de la couleur
-      let choixCouleur = colorPicked.value;
+  //btn_envoyerPanier.addEventListener("click", (event) => {
+    let quantity = getQuantity(quantityElt.value);
 
-      //Recupération du choix de la quantité
-      let choixQuantite = quantityPicked.value;
+    if (checkColor(colorElt.value)) {
+      let  color = colorElt.value;
 
       //Récupération des options de l'article à ajouter au panier
       let optionsProduit = {
         idProduit: idProduct,
-        couleurProduit: choixCouleur,
-        quantiteProduit: Number(choixQuantite),
+        couleurProduit: color,
+        quantiteProduit: Number(quantity),
         nomProduit: article.name,
         prixProduit: article.price,
         descriptionProduit: article.description,
@@ -100,7 +115,7 @@ function addToCart(article) {
       if (produitLocalStorage) {
         const resultFind = produitLocalStorage.find(
           (el) =>
-            el.idProduit === idProduct && el.couleurProduit === choixCouleur
+            el.idProduit === idProduct && el.couleurProduit === color
         );
         //Si le produit commandé est déjà dans le panier
         if (resultFind) {
@@ -127,5 +142,5 @@ function addToCart(article) {
         window.location.href = "cart.html";
       }
     }
-  });
+  //});
 }
