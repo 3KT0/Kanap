@@ -43,15 +43,15 @@ function getPost(article) {
 
   // Modification du titre "h1"
   let productName = document.getElementById("title");
-  productName.innerHTML = article.name;
+  productName.innerText = article.name;
 
   // Modification du prix
   let productPrice = document.getElementById("price");
-  productPrice.innerHTML = article.price;
+  productPrice.innerText = article.price;
 
   // Modification de la description
   let productDescription = document.getElementById("description");
-  productDescription.innerHTML = article.description;
+  productDescription.innerText = article.description;
 
   // Insertion des options de couleurs
   for (let colors of article.colors) {
@@ -59,7 +59,7 @@ function getPost(article) {
     let productColors = document.createElement("option");
     document.querySelector("#colors").appendChild(productColors);
     productColors.value = colors;
-    productColors.innerHTML = colors;
+    productColors.innerText = colors;
   }
   document.querySelector("#addToCart").addEventListener("click",() => {
     addToCart(article);
@@ -94,15 +94,15 @@ function addToCart(article) {
     let color = colorElt.value;
 
     //Récupération des options de l'article à ajouter au panier
-    let optionsProduit = {
-      idProduit: idProduct,
-      couleurProduit: color,
-      quantiteProduit: Number(quantity),
-      nomProduit: article.name,
-      prixProduit: article.price,
-      descriptionProduit: article.description,
-      imgProduit: article.imageUrl,
-      altImgProduit: article.altTxt,
+    let productOptions = {
+      idProduct: idProduct,
+      productColor: color,
+      productQuantity: Number(quantity),
+      productName: article.name,
+      productPrice: article.price,
+      productDescription: article.description,
+      productImg: article.imageUrl,
+      altproductImg: article.altTxt,
     };
 
     //Initialisation du local storage
@@ -113,20 +113,20 @@ function addToCart(article) {
     if (productLocalStorage) {
       const resultFind = productLocalStorage.find(
         (el) =>
-          el.idProduit === idProduct && el.couleurProduit === color
+          el.idProduct === idProduct && el.productColor === color
       );
       //Si le produit commandé est déjà dans le panier
       if (resultFind) {
         let newQuantity =
-          parseInt(optionsProduit.quantiteProduit) +
-          parseInt(resultFind.quantiteProduit);
-        resultFind.quantiteProduit = newQuantity;
+          parseInt(productOptions.productQuantity) +
+          parseInt(resultFind.productQuantity);
+        resultFind.productQuantity = newQuantity;
         localStorage.setItem("produit", JSON.stringify(productLocalStorage));
         console.table(productLocalStorage);
         window.location.href = "cart.html";
         //Si le produit commandé n'est pas dans le panier
       } else {
-        productLocalStorage.push(optionsProduit);
+        productLocalStorage.push(productOptions);
         localStorage.setItem("produit", JSON.stringify(productLocalStorage));
         console.table(productLocalStorage);
         window.location.href = "cart.html";
@@ -134,7 +134,7 @@ function addToCart(article) {
       //Si le panier est vide
     } else {
       productLocalStorage = [];
-      productLocalStorage.push(optionsProduit);
+      productLocalStorage.push(productOptions);
       localStorage.setItem("produit", JSON.stringify(productLocalStorage));
       console.table(productLocalStorage);
       window.location.href = "cart.html";

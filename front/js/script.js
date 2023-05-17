@@ -32,13 +32,13 @@ async function fillSection() {
         let productName = document.createElement("h3");
         productArticle.appendChild(productName);
         productName.classList.add("productName");
-        productName.innerHTML = resultatAPI[article].name;
+        productName.innerText = resultatAPI[article].name;
 
         // Insertion de la description "p"
         let productDescription = document.createElement("p");
         productArticle.appendChild(productDescription);
         productDescription.classList.add("productName");
-        productDescription.innerHTML = resultatAPI[article].description;
+        productDescription.innerText = resultatAPI[article].description;
       }
     })
     .catch(function (error) {
