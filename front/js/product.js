@@ -64,10 +64,8 @@ function getPost(article) {
   document.querySelector("#addToCart").addEventListener("click",() => {
     addToCart(article);
   });
-
-
-  //addToCart(article);
 }
+
   //quantités de canapé, 1 canapé selectionné si non  défini
 function getQuantity(quantity) {
   if (quantity <= 0 || quantity > 100) {
@@ -110,12 +108,14 @@ function addToCart(article) {
 
     //Importation dans le local storage
     //Si le panier comporte déjà au moins 1 article
+
     if (productLocalStorage) {
       const resultFind = productLocalStorage.find(
         (el) =>
           el.idProduct === idProduct && el.productColor === color
       );
       //Si le produit commandé est déjà dans le panier
+
       if (resultFind) {
         let newQuantity =
           parseInt(productOptions.productQuantity) +
@@ -124,14 +124,18 @@ function addToCart(article) {
         localStorage.setItem("produit", JSON.stringify(productLocalStorage));
         console.table(productLocalStorage);
         window.location.href = "cart.html";
+
         //Si le produit commandé n'est pas dans le panier
+
       } else {
         productLocalStorage.push(productOptions);
         localStorage.setItem("produit", JSON.stringify(productLocalStorage));
         console.table(productLocalStorage);
         window.location.href = "cart.html";
       }
+
       //Si le panier est vide
+      
     } else {
       productLocalStorage = [];
       productLocalStorage.push(productOptions);
