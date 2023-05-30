@@ -4,14 +4,14 @@ fillSection();
  * 
  * @returns 
  */
-
 async function getArticles() {
   let articlesCatch = await fetch("http://localhost:3000/api/products");
   return await articlesCatch.json();
 }
 
-// Répartition des données de l'API dans le DOM
-
+/**
+ * Répartition des données de l'API dans le DOM
+ */
 async function fillSection() {
   let result = await getArticles()
     .then(function (resultatAPI) {

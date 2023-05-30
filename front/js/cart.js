@@ -3,9 +3,15 @@
 let productLocalStorage = JSON.parse(localStorage.getItem("produit"));
 console.table(productLocalStorage);
 const positionEmptyCart = document.querySelector("#cart__items");
+  //Récupération des coordonnées du formulaire client
+
+  const firstNameElt = document.getElementById("firstName");
+  const lastNameElt = document.getElementById("lastName");
+  const adressElt = document.getElementById("address");
+  const cityElt = document.getElementById("city");
+  const mailElt = document.getElementById("email");
 
 // Si le panier est vide
-
 function getCart() {
   if (productLocalStorage === null || productLocalStorage == 0) {
     const emptyCart = `Votre panier est vide`;
@@ -250,23 +256,41 @@ function getForm() {
     validEmail(this);
   });
 
-  //validation du Prénom
+/**
+ * VALIDATION DU PRENOM
+ * @param {string} firstNameElt 
+ * @returns 
+ */
+function validFirstName(firstNameElt) {
+  console.log(typeof firstNameElt, firstNameElt);
 
-function validFirstName (inputFirstName) {
-  let firstNameErrorMsg = inputFirstName.nextElementSibling;
-  if (charRegExp.test(inputFirstName.value)) {
+  let firstNameErrorMsg = firstNameElt.nextElementSibling;
+
+  console.log(typeof firstNameErrorMsg, firstNameErrorMsg);
+  console.log(typeof firstNameElt.value, firstNameElt.value);
+
+  if (charRegExp.test(firstNameElt.value)) {
     firstNameErrorMsg.innerText = "";
+
+    console.log(typeof firstNameErrorMsg, firstNameErrorMsg);
+
+    return true;
+
   } else {
-    firstNameErrorMsg.innerText = "Veuillez renseigner ce champ.";
+    firstNameErrorMsg.innerText = "Veuillez renseigner ce champ???.";
+
+    console.log(typeof firstNameErrorMsg, firstNameErrorMsg);
+
+    return false;
   }
 };
 
   //validation du nom
 
-function validLastName (inputLastName) {
-    let lastNameErrorMsg = inputLastName.nextElementSibling;
+function validLastName(lastNameElt) {
+    let lastNameErrorMsg = lastNameElt.nextElementSibling;
 
-    if (charRegExp.test(inputLastName.value)) {
+    if (charRegExp.test(lastNameElt.value)) {
       lastNameErrorMsg.innerText = "";
     } else {
       lastNameErrorMsg.innerText = "Veuillez renseigner ce champ.";
@@ -275,10 +299,10 @@ function validLastName (inputLastName) {
 
   //validation de l'adresse
 
-function validAddress (inputAddress) {
-    let addressErrorMsg = inputAddress.nextElementSibling;
+function validAddress (adressElt) {
+    let addressErrorMsg = adressElt.nextElementSibling;
 
-    if (addressRegExp.test(inputAddress.value)) {
+    if (addressRegExp.test(adressElt.value)) {
       addressErrorMsg.innerText = "";
     } else {
       addressErrorMsg.innerText = "Veuillez renseigner ce champ.";
@@ -287,10 +311,10 @@ function validAddress (inputAddress) {
 
   //validation de la ville
 
-function validCity (inputCity) {
-    let cityErrorMsg = inputCity.nextElementSibling;
+function validCity (cityElt) {
+    let cityErrorMsg = cityElt.nextElementSibling;
 
-    if (charRegExp.test(inputCity.value)) {
+    if (charRegExp.test(cityElt.value)) {
       cityErrorMsg.innerText = "";
     } else {
       cityErrorMsg.innerText = "Veuillez renseigner ce champ.";
@@ -299,10 +323,10 @@ function validCity (inputCity) {
 
   //validation de l'email
 
-function validEmail (inputEmail) {
-    let emailErrorMsg = inputEmail.nextElementSibling;
+function validEmail (mailElt) {
+    let emailErrorMsg = mailElt.nextElementSibling;
 
-    if (emailRegExp.test(inputEmail.value)) {
+    if (emailRegExp.test(mailElt.value)) {
       emailErrorMsg.innerText = "";
     } else {
       emailErrorMsg.innerText = "Veuillez renseigner votre email.";
@@ -317,15 +341,10 @@ function postForm() {
 
   //Ecouter le panier
   
-  btn_order.addEventListener("click", (event) => {
-    //Récupération des coordonnées du formulaire client
-
-    let inputName = document.getElementById("firstName");
-    let inputLastName = document.getElementById("lastName");
-    let inputAdress = document.getElementById("address");
-    let inputCity = document.getElementById("city");
-    let inputMail = document.getElementById("email");
-
+  btn_order.addEventListener("click", () => {
+    let firstName = firstNameElt.value ;
+      if (!validFirstName(firstName) || !lastName || !address || !city || !email) {
+    }
     //Construction d'un array depuis le local storage
 
     let idProducts = [];
@@ -336,11 +355,11 @@ function postForm() {
 
     const order = {
       contact: {
-        firstName: inputName.value,
-        lastName: inputLastName.value,
-        address: inputAdress.value,
-        city: inputCity.value,
-        email: inputMail.value,
+        firstName: firstName,
+        lastName: lastNameElt.value,
+        address: adressElt.value,
+        city: cityElt.value,
+        email: mailElt.value,
       },
       products: idProducts,
     };
