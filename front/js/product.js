@@ -106,16 +106,14 @@ function addToCart(article) {
     //Initialisation du local storage
     let productLocalStorage = JSON.parse(localStorage.getItem("produit"));
 
-    //Importation dans le local storage
     //Si le panier comporte déjà au moins 1 article
-
     if (productLocalStorage) {
       const resultFind = productLocalStorage.find(
         (el) =>
           el.idProduct === idProduct && el.productColor === color
       );
-      //Si le produit commandé est déjà dans le panier
 
+      //Si le produit commandé est déjà dans le panier
       if (resultFind) {
         let newQuantity =
           parseInt(productOptions.productQuantity) +
@@ -126,7 +124,6 @@ function addToCart(article) {
         window.location.href = "cart.html";
 
         //Si le produit commandé n'est pas dans le panier
-
       } else {
         productLocalStorage.push(productOptions);
         localStorage.setItem("produit", JSON.stringify(productLocalStorage));
@@ -135,7 +132,6 @@ function addToCart(article) {
       }
 
       //Si le panier est vide
-      
     } else {
       productLocalStorage = [];
       productLocalStorage.push(productOptions);

@@ -315,11 +315,9 @@ function postForm() {
         console.log(data);
         localStorage.clear();
         localStorage.setItem("orderId", data.orderId);
-
         document.location.href = "confirmation.html";
       })
       .catch((err) => {
         alert("Problème avec fetch : " + err.message);
       });
 }
-postForm();
