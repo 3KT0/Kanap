@@ -209,7 +209,7 @@ function validFirstName(firstNameElt) {
 
     return true;
   } else {
-    firstNameErrorMsg.innerText = "Veuillez renseigner ce champ???.";
+    firstNameErrorMsg.innerText = "Veuillez renseigner ce champ.";
 
     console.log(typeof firstNameErrorMsg, firstNameErrorMsg);
 
@@ -223,8 +223,10 @@ function validLastName(lastNameElt) {
 
   if (charRegExp.test(lastNameElt.value)) {
     lastNameErrorMsg.innerText = "";
+    return true;
   } else {
     lastNameErrorMsg.innerText = "Veuillez renseigner ce champ.";
+    return false;
   }
 }
 
@@ -237,8 +239,10 @@ function validAddress(adressElt) {
 
   if (addressRegExp.test(adressElt.value)) {
     addressErrorMsg.innerText = "";
+    return true;
   } else {
     addressErrorMsg.innerText = "Veuillez renseigner ce champ.";
+    return false;
   }
 }
 
@@ -248,8 +252,10 @@ function validCity(cityElt) {
 
   if (charRegExp.test(cityElt.value)) {
     cityErrorMsg.innerText = "";
+    return true;
   } else {
     cityErrorMsg.innerText = "Veuillez renseigner ce champ.";
+    return false;
   }
 }
 
@@ -262,8 +268,10 @@ function validEmail(mailElt) {
 
   if (emailRegExp.test(mailElt.value)) {
     emailErrorMsg.innerText = "";
+    return true;
   } else {
     emailErrorMsg.innerText = "Veuillez renseigner votre email.";
+    return false;
   }
 }
 
@@ -276,6 +284,7 @@ function checkForm() {
     !validCity(cityElt) ||
     !validEmail(mailElt)
   ) {
+    return;
   }
   sendOrder();
 }
