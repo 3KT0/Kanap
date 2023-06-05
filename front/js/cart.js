@@ -209,7 +209,7 @@ function validFirstName(firstNameElt) {
 
     return true;
   } else {
-    firstNameErrorMsg.innerText = "Veuillez renseigner ce champ.";
+    firstNameErrorMsg.innerText = "Veuillez renseigner un prénom.";
 
     console.log(typeof firstNameErrorMsg, firstNameErrorMsg);
 
@@ -225,7 +225,7 @@ function validLastName(lastNameElt) {
     lastNameErrorMsg.innerText = "";
     return true;
   } else {
-    lastNameErrorMsg.innerText = "Veuillez renseigner ce champ.";
+    lastNameErrorMsg.innerText = "Veuillez renseigner un nom de famille.";
     return false;
   }
 }
@@ -241,7 +241,7 @@ function validAddress(adressElt) {
     addressErrorMsg.innerText = "";
     return true;
   } else {
-    addressErrorMsg.innerText = "Veuillez renseigner ce champ.";
+    addressErrorMsg.innerText = "Veuillez renseigner une addresse valide.";
     return false;
   }
 }
@@ -254,7 +254,7 @@ function validCity(cityElt) {
     cityErrorMsg.innerText = "";
     return true;
   } else {
-    cityErrorMsg.innerText = "Veuillez renseigner ce champ.";
+    cityErrorMsg.innerText = "Veuillez renseigner votre ville .";
     return false;
   }
 }
@@ -270,23 +270,22 @@ function validEmail(mailElt) {
     emailErrorMsg.innerText = "";
     return true;
   } else {
-    emailErrorMsg.innerText = "Veuillez renseigner votre email.";
+    emailErrorMsg.innerText = "Veuillez renseigner un email valide.";
     return false;
   }
 }
 
 function checkForm() {
-  console.log("1 => ", typeof validFirstName, validFirstName(firstName));
+  console.log("Checkform");
   if (
-    !validFirstName(firstNameElt) ||
-    !validLastName(lastNameElt) ||
-    !validAddress(adressElt) ||
-    !validCity(cityElt) ||
-    !validEmail(mailElt)
+    validFirstName(firstNameElt) &&
+    validLastName(lastNameElt) &&
+    validAddress(adressElt) &&
+    validCity(cityElt) &&
+    validEmail(mailElt)
   ) {
-    return;
+    sendOrder();
   }
-  sendOrder();
 }
 
 //Envoi des informations client au localstorage
@@ -333,14 +332,4 @@ function sendOrder() {
     });
 }
 
-function postForm() {
-  const btn_order = document.getElementById("order");
-  console.log(firstNameElt);
-
-  //Ecouter le panier
-  btn_order.addEventListener("click", checkForm);
-
-  //Construction d'un array depuis le local storage
-}
-
-postForm();
+document.getElementById("order").addEventListener("click", checkForm);
