@@ -1,28 +1,37 @@
-//Initialisation du local storage
-
+/**
+ * Initialisation du local storage
+ */
 let productLocalStorage = JSON.parse(localStorage.getItem("produit"));
 console.table(productLocalStorage);
 const positionEmptyCart = document.querySelector("#cart__items");
 
-//Récupération des coordonnées du formulaire client
+/**
+ * Récupération des coordonnées du formulaire client
+ */
 const firstNameElt = document.getElementById("firstName");
 const lastNameElt = document.getElementById("lastName");
 const adressElt = document.getElementById("address");
 const cityElt = document.getElementById("city");
 const mailElt = document.getElementById("email");
 
-//Création des expressions régulières
+/**
+ * Création des expressions régulières
+ */
 const charRegExp = new RegExp("^[a-zA-Z ,.'-]+$");
 console.log(firstNameElt);
 
-// Si le panier est vide
+/**
+ *  Si le panier est vide
+ */
 function getCart() {
   if (productLocalStorage === null || productLocalStorage == 0) {
     const emptyCart = `Votre panier est vide`;
     positionEmptyCart.innerText = emptyCart;
   } else {
     for (let produit in productLocalStorage) {
-      // Insertion de l'élément "article"
+      /**
+       * Insertion de l'élément "article"
+       */
       let productArticle = document.createElement("article");
       document.querySelector("#cart__items").appendChild(productArticle);
       productArticle.className = "cart__item";
@@ -31,50 +40,68 @@ function getCart() {
         productLocalStorage[produit].idProduct
       );
 
-      // Insertion de l'élément "div"
+      /**
+       *  Insertion de l'élément "div"
+       */
       let productDivImg = document.createElement("div");
       productArticle.appendChild(productDivImg);
       productDivImg.className = "cart__item__img";
 
-      // Insertion de l'image
+      /**
+       * Insertion de l'image
+       */
       let productImg = document.createElement("img");
       productDivImg.appendChild(productImg);
       productImg.src = productLocalStorage[produit].productImg;
       productImg.alt = productLocalStorage[produit].altproductImg;
 
-      // Insertion de l'élément "div"
+      /**
+       * Insertion de l'élément "div"
+       */
       let productItemContent = document.createElement("div");
       productArticle.appendChild(productItemContent);
       productItemContent.className = "cart__item__content";
 
-      // Insertion de l'élément "div"
+      /**
+       * Insertion de l'élément "div"
+       */
       let productItemContentTitlePrice = document.createElement("div");
       productItemContent.appendChild(productItemContentTitlePrice);
       productItemContentTitlePrice.className =
         "cart__item__content__titlePrice";
 
-      // Insertion du titre h3
+      /**
+       * Insertion du titre h3
+       */
       let productTitle = document.createElement("h2");
       productItemContentTitlePrice.appendChild(productTitle);
       productTitle.innerText = productLocalStorage[produit].productName;
 
-      // Insertion de la couleur
+      /**
+       * Insertion de la couleur
+       */
       let productColor = document.createElement("p");
       productTitle.appendChild(productColor);
       productColor.innerText = productLocalStorage[produit].productColor;
       productColor.style.fontSize = "20px";
 
-      // Insertion du prix
+      /**
+       * Insertion du prix
+       */
       let productPrice = document.createElement("p");
       productItemContentTitlePrice.appendChild(productPrice);
       productPrice.innerText = productLocalStorage[produit].productPrice + " €";
 
-      // Insertion de l'élément "div"
+      /**
+       * Insertion de l'élément "div"
+       */
       let productItemContentSettings = document.createElement("div");
       productItemContent.appendChild(productItemContentSettings);
       productItemContentSettings.className = "cart__item__content__settings";
 
-      // Insertion de l'élément "div"
+      /**
+       * Insertion de l'élément "div"
+       */
       let productItemContentSettingsQuantity = document.createElement("div");
       productItemContentSettings.appendChild(
         productItemContentSettingsQuantity
@@ -82,12 +109,16 @@ function getCart() {
       productItemContentSettingsQuantity.className =
         "cart__item__content__settings__quantity";
 
-      // Insertion de "Qté : "
+      /**
+       * Insertion de "Qté : "
+       */
       let productQte = document.createElement("p");
       productItemContentSettingsQuantity.appendChild(productQte);
       productQte.innerText = "Qté : ";
 
-      // Insertion de la quantité
+      /**
+       * Insertion de la quantité
+       */
       let productQuantity = document.createElement("input");
       productItemContentSettingsQuantity.appendChild(productQuantity);
       productQuantity.value = productLocalStorage[produit].productQuantity;
@@ -97,13 +128,17 @@ function getCart() {
       productQuantity.setAttribute("max", "100");
       productQuantity.setAttribute("name", "itemQuantity");
 
-      // Insertion de l'élément "div"
+      /**
+       * Insertion de l'élément "div"
+       */
       let productItemContentSettingsDelete = document.createElement("div");
       productItemContentSettings.appendChild(productItemContentSettingsDelete);
       productItemContentSettingsDelete.className =
         "cart__item__content__settings__delete";
 
-      // Insertion de "p" supprimer
+      /**
+       * Insertion de "p" supprimer
+       */
       let productDeleted = document.createElement("p");
       productItemContentSettingsDelete.appendChild(productDeleted);
       productDeleted.className = "deleteItem";
@@ -113,8 +148,10 @@ function getCart() {
 }
 getCart();
 
+/**
+ * Récupération du total des quantités
+ */
 function getTotals() {
-  // Récupération du total des quantités
   let elemsQtt = document.getElementsByClassName("itemQuantity");
   let myLength = elemsQtt.length,
     totalQtt = 0;
@@ -126,7 +163,9 @@ function getTotals() {
   let productTotalQuantity = document.getElementById("totalQuantity");
   productTotalQuantity.innerText = totalQtt;
 
-  // Récupération du prix total
+  /**
+   *  Récupération du prix total
+   */
   totalPrice = 0;
 
   for (let i = 0; i < myLength; ++i) {
@@ -139,7 +178,9 @@ function getTotals() {
 }
 getTotals();
 
-// Modification d'une quantité de produit
+/**
+ * Modification d'une quantité de produit
+ */
 function modifyQtt() {
   let qttModif = document.querySelectorAll(".itemQuantity");
 
@@ -155,14 +196,18 @@ function modifyQtt() {
 
       localStorage.setItem("produit", JSON.stringify(productLocalStorage));
 
-      // refresh rapide
+      /**
+       *  refresh rapide
+       */
       location.reload();
     });
   }
 }
 modifyQtt();
 
-// Suppression d'un produit
+/**
+ * Suppression d'un produit
+ */
 function deleteProduct() {
   let btn_dlt = document.querySelectorAll(".deleteItem");
 
@@ -170,7 +215,9 @@ function deleteProduct() {
     btn_dlt[j].addEventListener("click", (event) => {
       event.preventDefault();
 
-      //Selection de l'element à supprimer en fonction de son id ET sa couleur
+      /**
+       * Selection de l'element à supprimer en fonction de son id ET sa couleur
+       */
       let idDelete = productLocalStorage[j].idProduct;
       let colorDelete = productLocalStorage[j].productColor;
 
@@ -180,7 +227,9 @@ function deleteProduct() {
 
       localStorage.setItem("produit", JSON.stringify(productLocalStorage));
 
-      //Alerte produit supprimé et refresh
+      /**
+       * Alerte produit supprimé et refresh
+       */
       alert("Ce produit a bien été supprimé du panier");
       location.reload();
     });
@@ -190,7 +239,7 @@ deleteProduct();
 console.log(firstNameElt);
 
 /**
- * VALIDATION DU PRENOM
+ * validation du prenom
  * @param {object} firstNameElt
  * @returns
  */
@@ -217,7 +266,11 @@ function validFirstName(firstNameElt) {
   }
 }
 
-//validation du nom
+/**
+ * validation du nom
+ * @param {object} lastNameElt 
+ * @returns 
+ */
 function validLastName(lastNameElt) {
   let lastNameErrorMsg = lastNameElt.nextElementSibling;
 
@@ -230,7 +283,11 @@ function validLastName(lastNameElt) {
   }
 }
 
-//validation de l'adresse
+/**
+ * validation de l'adresse
+ * @param {object} adressElt 
+ * @returns 
+ */
 function validAddress(adressElt) {
   const addressRegExp = new RegExp(
     "^([1-9][0-9]*(?:-[1-9][0-9]*)*)[\\s,-]+(?:(bis|ter|qua)[\\s,-]+)?([\\w]+[\\-\\w]*)[\\s,]+([-\\w].+)$"
@@ -246,7 +303,11 @@ function validAddress(adressElt) {
   }
 }
 
-//validation de la ville
+/**
+ * validation de la ville
+ * @param {object} cityElt 
+ * @returns 
+ */
 function validCity(cityElt) {
   let cityErrorMsg = cityElt.nextElementSibling;
 
@@ -259,7 +320,11 @@ function validCity(cityElt) {
   }
 }
 
-//validation de l'email
+/**
+ * validation de l'email
+ * @param {object} mailElt 
+ * @returns 
+ */
 function validEmail(mailElt) {
   const emailRegExp = new RegExp(
     "^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$"
@@ -274,9 +339,10 @@ function validEmail(mailElt) {
     return false;
   }
 }
-
+/**
+ * validation du formulaire entier
+ */
 function checkForm() {
-  console.log("Checkform");
   if (
     validFirstName(firstNameElt) &&
     validLastName(lastNameElt) &&
@@ -288,7 +354,9 @@ function checkForm() {
   }
 }
 
-//Envoi des informations client au localstorage
+/**
+ * Envoi des informations client au localstorage
+ */
 console.log(firstNameElt);
 
 function sendOrder() {

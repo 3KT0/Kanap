@@ -9,14 +9,18 @@ let article = "";
 
 getArticle();
 
-// Récupération des articles de l'API
+/**
+ * Récupération des articles de l'API
+ */
 function getArticle() {
   fetch("http://localhost:3000/api/products/" + idProduct)
     .then((res) => {
       return res.json();
     })
 
-    // Répartition des données de l'API dans le DOM
+    /**
+     * Répartition des données de l'API dans le DOM
+     */
     .then(async function (resultatAPI) {
       article = await resultatAPI;
       console.table(article);
@@ -28,6 +32,7 @@ function getArticle() {
       console.log("Erreur de la requête API");
     });
 }
+
 /**
  *
  * @param {*} article
@@ -35,25 +40,35 @@ function getArticle() {
 function getPost(article) {
   console.log("1 => ", typeof article, article);
 
-  // Insertion de l'image
+  /**
+   *  Insertion de l'image
+   */
   let productImg = document.createElement("img");
   document.querySelector(".item__img").appendChild(productImg);
   productImg.src = article.imageUrl;
   productImg.alt = article.altTxt;
 
-  // Modification du titre "h1"
+  /**
+   * Modification du titre "h1"
+   */
   let productName = document.getElementById("title");
   productName.innerText = article.name;
 
-  // Modification du prix
+  /**
+   *  Modification du prix
+   */
   let productPrice = document.getElementById("price");
   productPrice.innerText = article.price;
 
-  // Modification de la description
+  /**
+   * Modification de la description
+   */
   let productDescription = document.getElementById("description");
   productDescription.innerText = article.description;
 
-  // Insertion des options de couleurs
+  /**
+   *  Insertion des options de couleurs
+   */
   for (let colors of article.colors) {
     console.table(colors);
     let productColors = document.createElement("option");
@@ -66,7 +81,12 @@ function getPost(article) {
   });
 }
 
-  //quantités de canapé, 1 canapé selectionné si non  défini
+  /**
+   * quantités de canapé, 1 canapé selectionné si non  défini
+   * 
+   * @param {*} quantity 
+   * @returns 
+   */
 function getQuantity(quantity) {
   if (quantity <= 0 || quantity > 100) {
     quantity = 1;
@@ -75,7 +95,12 @@ function getQuantity(quantity) {
   return quantity;
 }
 
-//selection de  la  couleur de canapé rendu obligatoire
+/**
+ * selection de  la  couleur de canapé rendu obligatoire
+ * 
+ * @param {*} color 
+ * @returns 
+ */
 function checkColor(color) {
   if (color === "") {
     alert("Une couleur doit être choisie");
@@ -84,14 +109,20 @@ function checkColor(color) {
   return true;
 }
 
-//Gestion du panier
+/**
+ * Gestion du panier
+ * 
+ * @param {*} article 
+ */
 function addToCart(article) {
   let quantity = getQuantity(quantityElt.value);
 
   if (checkColor(colorElt.value)) {
     let color = colorElt.value;
 
-    //Récupération des options de l'article à ajouter au panier
+    /**
+     * Récupération des options de l'article à ajouter au panier
+     */
     let productOptions = {
       idProduct: idProduct,
       productColor: color,
@@ -103,17 +134,23 @@ function addToCart(article) {
       altproductImg: article.altTxt,
     };
 
-    //Initialisation du local storage
+    /**
+     * Initialisation du local storage
+     */
     let productLocalStorage = JSON.parse(localStorage.getItem("produit"));
 
-    //Si le panier comporte déjà au moins 1 article
+    /**
+     * Si le panier comporte déjà au moins 1 article
+     */
     if (productLocalStorage) {
       const resultFind = productLocalStorage.find(
         (el) =>
           el.idProduct === idProduct && el.productColor === color
       );
 
-      //Si le produit commandé est déjà dans le panier
+      /**
+       * Si le produit commandé est déjà dans le panier
+       */
       if (resultFind) {
         let newQuantity =
           parseInt(productOptions.productQuantity) +
@@ -123,7 +160,9 @@ function addToCart(article) {
         console.table(productLocalStorage);
         window.location.href = "cart.html";
 
-        //Si le produit commandé n'est pas dans le panier
+        /**
+         * Si le produit commandé n'est pas dans le panier
+         */
       } else {
         productLocalStorage.push(productOptions);
         localStorage.setItem("produit", JSON.stringify(productLocalStorage));
@@ -131,7 +170,9 @@ function addToCart(article) {
         window.location.href = "cart.html";
       }
 
-      //Si le panier est vide
+      /**
+       * Si le panier est vide
+       */
     } else {
       productLocalStorage = [];
       productLocalStorage.push(productOptions);
