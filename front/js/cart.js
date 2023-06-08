@@ -332,4 +332,4 @@ function sendOrder() {
     });
 }
 
-document.getElementById("order").addEventListener("click", checkForm);
+document.getElementById("order").addEventListener("click",checkForm);
