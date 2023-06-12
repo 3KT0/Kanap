@@ -35,7 +35,7 @@ function getArticle() {
 
 /**
  *
- * @param {*} article
+ * @param {article}
  */
 function getPost(article) {
   console.log("1 => ", typeof article, article);
