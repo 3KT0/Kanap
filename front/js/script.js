@@ -1,8 +1,7 @@
-fillSection();
-
 /**
- * 
- * @returns 
+ * Cette fonction asynchrone renvoie les articles.
+ *
+ * @returns {Promise<object>} une promesse qui se résout en renvoyant le contenu JSON de la réponse.
  */
 async function getArticles() {
   let articlesCatch = await fetch("http://localhost:3000/api/products");
@@ -10,9 +9,11 @@ async function getArticles() {
 }
 
 /**
- * Répartition des données de l'API dans le DOM
+ * Remplit la section avec les données de l'API.
+ * @async
  */
 async function fillSection() {
+  // Récupère les articles depuis l'API
   let result = await getArticles()
     .then(function (resultatAPI) {
       const articles = resultatAPI;
@@ -20,20 +21,23 @@ async function fillSection() {
       for (let article in articles) {
         
         /**
-         * Insertion de l'élément "a"
+         * Insère l'élément "a".
+         * @type {HTMLAnchorElement}
          */
         let productLink = document.createElement("a");
         document.querySelector(".items").appendChild(productLink);
         productLink.href = `product.html?id=${resultatAPI[article]._id}`;
 
         /**
-         * Insertion de l'élément "article"
+         * Insère l'élément "article".
+         * @type {HTMLElement}
          */
         let productArticle = document.createElement("article");
         productLink.appendChild(productArticle);
 
         /**
-         * Insertion de l'image
+         * Insère l'image.
+         * @type {HTMLImageElement}
          */
         let productImg = document.createElement("img");
         productArticle.appendChild(productImg);
@@ -41,7 +45,8 @@ async function fillSection() {
         productImg.alt = resultatAPI[article].altTxt;
 
         /**
-         * Insertion du titre "h3"
+         * Insère le titre "h3".
+         * @type {HTMLHeadingElement}
          */
         let productName = document.createElement("h3");
         productArticle.appendChild(productName);
@@ -49,7 +54,8 @@ async function fillSection() {
         productName.innerText = resultatAPI[article].name;
 
         /**
-         * Insertion de la description "p"
+         * Insère la description "p".
+         * @type {HTMLParagraphElement}
          */
         let productDescription = document.createElement("p");
         productArticle.appendChild(productDescription);
@@ -61,3 +67,5 @@ async function fillSection() {
       return error;
     });
 }
+
+fillSection();

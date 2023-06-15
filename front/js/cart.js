@@ -1,12 +1,19 @@
 /**
  * Initialisation du local storage
+ * @type {Array}
  */
 let productLocalStorage = JSON.parse(localStorage.getItem("produit"));
 console.table(productLocalStorage);
+
+/**
+ * Element HTML où les items seront affichés
+ * @type {HTMLElement}
+ */
 const positionEmptyCart = document.querySelector("#cart__items");
 
 /**
  * Récupération des coordonnées du formulaire client
+ * @type {HTMLInputElement}
  */
 const firstNameElt = document.getElementById("firstName");
 const lastNameElt = document.getElementById("lastName");
@@ -16,6 +23,7 @@ const mailElt = document.getElementById("email");
 
 /**
  * Création des expressions régulières
+ * @type {RegExp}
  */
 const charRegExp = new RegExp("^[a-zA-Z ,.'-]+$");
 console.log(firstNameElt);
@@ -25,133 +33,140 @@ console.log(firstNameElt);
  */
 function getCart() {
   if (productLocalStorage === null || productLocalStorage == 0) {
-    const emptyCart = `Votre panier est vide`;
-    positionEmptyCart.innerText = emptyCart;
+    positionEmptyCart.innerText = `Votre panier est vide`;
   } else {
     for (let produit in productLocalStorage) {
       /**
        * Insertion de l'élément "article"
+       * @type {HTMLElement}
        */
       let productArticle = document.createElement("article");
-      document.querySelector("#cart__items").appendChild(productArticle);
       productArticle.className = "cart__item";
       productArticle.setAttribute(
         "data-id",
         productLocalStorage[produit].idProduct
       );
+      document.querySelector("#cart__items").appendChild(productArticle);
 
       /**
        *  Insertion de l'élément "div"
+       * @type {HTMLElement}
        */
       let productDivImg = document.createElement("div");
-      productArticle.appendChild(productDivImg);
       productDivImg.className = "cart__item__img";
+      productArticle.appendChild(productDivImg);
 
       /**
        * Insertion de l'image
+       * @type {HTMLImageElement}
        */
       let productImg = document.createElement("img");
-      productDivImg.appendChild(productImg);
       productImg.src = productLocalStorage[produit].productImg;
       productImg.alt = productLocalStorage[produit].altproductImg;
+      productDivImg.appendChild(productImg);
 
       /**
        * Insertion de l'élément "div"
+       * @type {HTMLElement}
        */
       let productItemContent = document.createElement("div");
-      productArticle.appendChild(productItemContent);
       productItemContent.className = "cart__item__content";
+      productArticle.appendChild(productItemContent);
 
       /**
        * Insertion de l'élément "div"
+       * @type {HTMLElement}
        */
       let productItemContentTitlePrice = document.createElement("div");
+      productItemContentTitlePrice.className = "cart__item__content__titlePrice";
       productItemContent.appendChild(productItemContentTitlePrice);
-      productItemContentTitlePrice.className =
-        "cart__item__content__titlePrice";
 
       /**
-       * Insertion du titre h3
+       * Insertion du titre h2
+       * @type {HTMLHeadingElement}
        */
       let productTitle = document.createElement("h2");
-      productItemContentTitlePrice.appendChild(productTitle);
       productTitle.innerText = productLocalStorage[produit].productName;
+      productItemContentTitlePrice.appendChild(productTitle);
 
       /**
        * Insertion de la couleur
+       * @type {HTMLParagraphElement}
        */
       let productColor = document.createElement("p");
-      productTitle.appendChild(productColor);
       productColor.innerText = productLocalStorage[produit].productColor;
       productColor.style.fontSize = "20px";
+      productTitle.appendChild(productColor);
 
       /**
        * Insertion du prix
+       * @type {HTMLParagraphElement}
        */
       let productPrice = document.createElement("p");
-      productItemContentTitlePrice.appendChild(productPrice);
       productPrice.innerText = productLocalStorage[produit].productPrice + " €";
+      productItemContentTitlePrice.appendChild(productPrice);
 
       /**
        * Insertion de l'élément "div"
+       * @type {HTMLElement}
        */
       let productItemContentSettings = document.createElement("div");
-      productItemContent.appendChild(productItemContentSettings);
       productItemContentSettings.className = "cart__item__content__settings";
+      productItemContent.appendChild(productItemContentSettings);
 
       /**
        * Insertion de l'élément "div"
+       * @type {HTMLElement}
        */
       let productItemContentSettingsQuantity = document.createElement("div");
-      productItemContentSettings.appendChild(
-        productItemContentSettingsQuantity
-      );
-      productItemContentSettingsQuantity.className =
-        "cart__item__content__settings__quantity";
+      productItemContentSettingsQuantity.className = "cart__item__content__settings__quantity";
+      productItemContentSettings.appendChild(productItemContentSettingsQuantity);
 
       /**
        * Insertion de "Qté : "
+       * @type {HTMLParagraphElement}
        */
       let productQte = document.createElement("p");
-      productItemContentSettingsQuantity.appendChild(productQte);
       productQte.innerText = "Qté : ";
+      productItemContentSettingsQuantity.appendChild(productQte);
 
       /**
        * Insertion de la quantité
        */
       let productQuantity = document.createElement("input");
-      productItemContentSettingsQuantity.appendChild(productQuantity);
       productQuantity.value = productLocalStorage[produit].productQuantity;
       productQuantity.className = "itemQuantity";
       productQuantity.setAttribute("type", "number");
       productQuantity.setAttribute("min", "1");
       productQuantity.setAttribute("max", "100");
       productQuantity.setAttribute("name", "itemQuantity");
+      productItemContentSettingsQuantity.appendChild(productQuantity);
 
       /**
        * Insertion de l'élément "div"
        */
       let productItemContentSettingsDelete = document.createElement("div");
+      productItemContentSettingsDelete.className = "cart__item__content__settings__delete";
       productItemContentSettings.appendChild(productItemContentSettingsDelete);
-      productItemContentSettingsDelete.className =
-        "cart__item__content__settings__delete";
 
       /**
        * Insertion de "p" supprimer
        */
       let productDeleted = document.createElement("p");
-      productItemContentSettingsDelete.appendChild(productDeleted);
       productDeleted.className = "deleteItem";
       productDeleted.innerText = "Supprimer";
+      productItemContentSettingsDelete.appendChild(productDeleted);
     }
   }
 }
-getCart();
 
 /**
  * Récupération du total des quantités
+ * @function
+ * @returns {void}
  */
 function getTotals() {
+  /** @type {HTMLCollectionOf<HTMLInputElement>} */
   let elemsQtt = document.getElementsByClassName("itemQuantity");
   let myLength = elemsQtt.length,
     totalQtt = 0;
@@ -167,7 +182,7 @@ function getTotals() {
    *  Récupération du prix total
    */
   totalPrice = 0;
-
+  /** @type {Array} */
   for (let i = 0; i < myLength; ++i) {
     totalPrice +=
       elemsQtt[i].valueAsNumber * productLocalStorage[i].productPrice;
@@ -176,19 +191,21 @@ function getTotals() {
   let productTotalPrice = document.getElementById("totalPrice");
   productTotalPrice.innerText = totalPrice;
 }
-getTotals();
 
 /**
  * Modification d'une quantité de produit
  */
 function modifyQtt() {
+  /** @type {NodeListOf<HTMLInputElement>} */
   let qttModif = document.querySelectorAll(".itemQuantity");
 
   for (let k = 0; k < qttModif.length; k++) {
     qttModif[k].addEventListener("change", (event) => {
       event.preventDefault();
+      /** @type {number} */
       let qttModifValue = qttModif[k].valueAsNumber;
 
+      /** @type {Object} */
       const resultFind = productLocalStorage[k];
 
       resultFind.productQuantity = qttModifValue;
@@ -203,10 +220,11 @@ function modifyQtt() {
     });
   }
 }
-modifyQtt();
 
 /**
  * Suppression d'un produit
+ * @function
+ * @returns {void}
  */
 function deleteProduct() {
   let btn_dlt = document.querySelectorAll(".deleteItem");
@@ -235,13 +253,11 @@ function deleteProduct() {
     });
   }
 }
-deleteProduct();
-console.log(firstNameElt);
 
 /**
- * validation du prenom
- * @param {object} firstNameElt
- * @returns
+ * Valide le champ de saisie du prénom.
+ * @param {object} firstNameElt - L'élément HTML du champ de saisie du prénom.
+ * @returns {boolean} - True si la valeur du champ de saisie correspond à l'expression régulière, false sinon.
  */
 function validFirstName(firstNameElt) {
   console.log(typeof firstNameElt, firstNameElt);
@@ -267,9 +283,9 @@ function validFirstName(firstNameElt) {
 }
 
 /**
- * validation du nom
- * @param {object} lastNameElt 
- * @returns 
+ * Fonction de validation du nom de famille.
+ * @param {object} lastNameElt - Élément HTML contenant le nom de famille à valider.
+ * @returns {boolean} - Retourne true si le nom de famille est valide, sinon false.
  */
 function validLastName(lastNameElt) {
   let lastNameErrorMsg = lastNameElt.nextElementSibling;
@@ -284,9 +300,9 @@ function validLastName(lastNameElt) {
 }
 
 /**
- * validation de l'adresse
- * @param {object} adressElt 
- * @returns 
+ * Valide une adresse.
+ * @param {object} adressElt - L'élément DOM contenant l'adresse à valider.
+ * @returns {boolean} - Renvoie true si l'adresse est valide, sinon false.
  */
 function validAddress(adressElt) {
   const addressRegExp = new RegExp(
@@ -304,9 +320,9 @@ function validAddress(adressElt) {
 }
 
 /**
- * validation de la ville
- * @param {object} cityElt 
- * @returns 
+ * Fonction de validation de la ville.
+ * @param {object} cityElt - Élément HTML représentant le champ de saisie de la ville.
+ * @returns {boolean} - Indique si l'entrée de l'utilisateur est valide ou non.
  */
 function validCity(cityElt) {
   let cityErrorMsg = cityElt.nextElementSibling;
@@ -321,9 +337,9 @@ function validCity(cityElt) {
 }
 
 /**
- * validation de l'email
- * @param {object} mailElt 
- * @returns 
+ * Vérifie si une adresse e-mail est valide
+ * @param {object} mailElt - L'élément DOM correspondant au champ d'adresse e-mail
+ * @returns {boolean} - true si l'adresse e-mail est valide, false sinon
  */
 function validEmail(mailElt) {
   const emailRegExp = new RegExp(
@@ -340,7 +356,9 @@ function validEmail(mailElt) {
   }
 }
 /**
- * validation du formulaire entier
+ * Valide le formulaire entier
+ * @function
+ * @returns {void}
  */
 function checkForm() {
   if (
@@ -359,6 +377,12 @@ function checkForm() {
  */
 console.log(firstNameElt);
 
+/**
+ * Envoie une commande au serveur avec les produits stockés dans localStorage et les informations de contact
+ * fournies par l'utilisateur dans le formulaire. Renvoie une promesse qui se résout aux données de réponse du serveur.
+ *
+ * @return {Promise} Une promesse qui se résout aux données de réponse du serveur.
+ */
 function sendOrder() {
   console.log(productLocalStorage);
   let idProducts = [];
@@ -399,5 +423,11 @@ function sendOrder() {
       alert("Problème avec fetch : " + err.message);
     });
 }
+
+getCart();
+getTotals();
+modifyQtt();
+deleteProduct();
+console.log(firstNameElt);
 
 document.getElementById("order").addEventListener("click",checkForm);
