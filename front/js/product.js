@@ -7,10 +7,9 @@ let idProduct = url.searchParams.get("id");
 console.log(idProduct);
 let article = "";
 
-getArticle();
-
 /**
  * Récupération des articles de l'API
+ * @param {number} idProduct - L'identifiant de l'article à récupérer.
  */
 function getArticle() {
   fetch("http://localhost:3000/api/products/" + idProduct)
@@ -20,6 +19,7 @@ function getArticle() {
 
     /**
      * Répartition des données de l'API dans le DOM
+     * @param {Object} resultatAPI - Les données de l'API récupérées.
      */
     .then(async function (resultatAPI) {
       article = await resultatAPI;
@@ -34,41 +34,31 @@ function getArticle() {
 }
 
 /**
- *
- * @param {article}
+ * Insère les informations d'un article dans le document HTML.
+ * @param {Object} article - L'article dont les informations doivent être insérées.
  */
 function getPost(article) {
   console.log("1 => ", typeof article, article);
 
-  /**
-   *  Insertion de l'image
-   */
+  // Insère l'image de l'article dans le document HTML.
   let productImg = document.createElement("img");
   document.querySelector(".item__img").appendChild(productImg);
   productImg.src = article.imageUrl;
   productImg.alt = article.altTxt;
 
-  /**
-   * Modification du titre "h1"
-   */
+  // Modifie le titre de l'article dans le document HTML.
   let productName = document.getElementById("title");
   productName.innerText = article.name;
 
-  /**
-   *  Modification du prix
-   */
+  // Modifie le prix de l'article dans le document HTML.
   let productPrice = document.getElementById("price");
   productPrice.innerText = article.price;
 
-  /**
-   * Modification de la description
-   */
+  // Modifie la description de l'article dans le document HTML.
   let productDescription = document.getElementById("description");
   productDescription.innerText = article.description;
 
-  /**
-   *  Insertion des options de couleurs
-   */
+  // Insère les options de couleur de l'article dans le document HTML.
   for (let colors of article.colors) {
     console.table(colors);
     let productColors = document.createElement("option");
@@ -76,17 +66,18 @@ function getPost(article) {
     productColors.value = colors;
     productColors.innerText = colors;
   }
+  // Ajoute un écouteur d'événement sur le bouton "Ajouter au panier".
   document.querySelector("#addToCart").addEventListener("click",() => {
     addToCart(article);
   });
 }
 
-  /**
-   * quantités de canapé, 1 canapé selectionné si non  défini
-   * 
-   * @param {*} quantity 
-   * @returns 
-   */
+/**
+ * Récupère la quantité de canapé, 1 canapé sélectionné si non défini
+ * 
+ * @param {number} quantity - La quantité de canapé sélectionnée
+ * @returns {number} - La quantité de canapé ajustée si nécessaire
+ */
 function getQuantity(quantity) {
   if (quantity <= 0 || quantity > 100) {
     quantity = 1;
@@ -96,10 +87,10 @@ function getQuantity(quantity) {
 }
 
 /**
- * selection de  la  couleur de canapé rendu obligatoire
+ * Vérifie si une couleur a été sélectionnée pour un canapé
  * 
- * @param {*} color 
- * @returns 
+ * @param {string} color - La couleur sélectionnée pour le canapé
+ * @returns {boolean} Retourne true si une couleur a été sélectionnée, false sinon
  */
 function checkColor(color) {
   if (color === "") {
@@ -110,9 +101,9 @@ function checkColor(color) {
 }
 
 /**
- * Gestion du panier
+ * Ajoute un article au panier
  * 
- * @param {*} article 
+ * @param {Object} article - L'article à ajouter au panier
  */
 function addToCart(article) {
   let quantity = getQuantity(quantityElt.value);
@@ -182,3 +173,4 @@ function addToCart(article) {
     }
   }
 }
+getArticle();
