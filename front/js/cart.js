@@ -3,7 +3,6 @@
  * @type {Array}
  */
 let productLocalStorage = JSON.parse(localStorage.getItem("produit"));
-console.table(productLocalStorage);
 
 /**
  * Element HTML où les items seront affichés
@@ -26,7 +25,6 @@ const mailElt = document.getElementById("email");
  * @type {RegExp}
  */
 const charRegExp = new RegExp("^[a-zA-Z ,.'-]+$");
-console.log(firstNameElt);
 
 /**
  *  Si le panier est vide
@@ -97,14 +95,6 @@ function getCart() {
       productColor.innerText = productLocalStorage[produit].productColor;
       productColor.style.fontSize = "20px";
       productTitle.appendChild(productColor);
-
-      /**
-       * Insertion du prix
-       * @type {HTMLParagraphElement}
-       */
-      let productPrice = document.createElement("p");
-      productPrice.innerText = productLocalStorage[produit].productPrice + " €";
-      productItemContentTitlePrice.appendChild(productPrice);
 
       /**
        * Insertion de l'élément "div"
@@ -260,24 +250,15 @@ function deleteProduct() {
  * @returns {boolean} - True si la valeur du champ de saisie correspond à l'expression régulière, false sinon.
  */
 function validFirstName(firstNameElt) {
-  console.log(typeof firstNameElt, firstNameElt);
 
   let firstNameErrorMsg = firstNameElt.nextElementSibling;
-
-  console.log(typeof firstNameErrorMsg, firstNameErrorMsg);
-  console.log(typeof firstNameElt.value, firstNameElt.value);
 
   if (charRegExp.test(firstNameElt.value)) {
     firstNameErrorMsg.innerText = "";
 
-    console.log(typeof firstNameErrorMsg, firstNameErrorMsg);
-
     return true;
   } else {
     firstNameErrorMsg.innerText = "Veuillez renseigner un prénom.";
-
-    console.log(typeof firstNameErrorMsg, firstNameErrorMsg);
-
     return false;
   }
 }
@@ -373,23 +354,16 @@ function checkForm() {
 }
 
 /**
- * Envoi des informations client au localstorage
- */
-console.log(firstNameElt);
-
-/**
  * Envoie une commande au serveur avec les produits stockés dans localStorage et les informations de contact
  * fournies par l'utilisateur dans le formulaire. Renvoie une promesse qui se résout aux données de réponse du serveur.
  *
  * @return {Promise} Une promesse qui se résout aux données de réponse du serveur.
  */
 function sendOrder() {
-  console.log(productLocalStorage);
   let idProducts = [];
   for (let i = 0; i < productLocalStorage.length; i++) {
     idProducts.push(productLocalStorage[i].idProduct);
   }
-  console.log(idProducts);
 
   const order = {
     contact: {
@@ -414,7 +388,6 @@ function sendOrder() {
   fetch("http://localhost:3000/api/products/order", options)
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       localStorage.clear();
       localStorage.setItem("orderId", data.orderId);
       document.location.href = "confirmation.html";
@@ -428,6 +401,5 @@ getCart();
 getTotals();
 modifyQtt();
 deleteProduct();
-console.log(firstNameElt);
 
 document.getElementById("order").addEventListener("click",checkForm);

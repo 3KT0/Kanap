@@ -17,7 +17,6 @@ async function fillSection() {
   let result = await getArticles()
     .then(function (resultatAPI) {
       const articles = resultatAPI;
-      console.table(articles);
       for (let article in articles) {
         
         /**

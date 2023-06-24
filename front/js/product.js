@@ -4,7 +4,6 @@ const quantityElt = document.querySelector("#quantity");
 let str = window.location.href;
 let url = new URL(str);
 let idProduct = url.searchParams.get("id");
-console.log(idProduct);
 let article = "";
 
 /**
@@ -21,15 +20,13 @@ function getArticle() {
      * Répartition des données de l'API dans le DOM
      * @param {Object} resultatAPI - Les données de l'API récupérées.
      */
-    .then(async function (resultatAPI) {
-      article = await resultatAPI;
-      console.table(article);
+    .then(function (resultatAPI) {
+      article = resultatAPI;
       if (article) {
         getPost(article);
       }
     })
     .catch((error) => {
-      console.log("Erreur de la requête API");
     });
 }
 
@@ -38,7 +35,6 @@ function getArticle() {
  * @param {Object} article - L'article dont les informations doivent être insérées.
  */
 function getPost(article) {
-  console.log("1 => ", typeof article, article);
 
   // Insère l'image de l'article dans le document HTML.
   let productImg = document.createElement("img");
@@ -60,7 +56,6 @@ function getPost(article) {
 
   // Insère les options de couleur de l'article dans le document HTML.
   for (let colors of article.colors) {
-    console.table(colors);
     let productColors = document.createElement("option");
     document.querySelector("#colors").appendChild(productColors);
     productColors.value = colors;
@@ -148,7 +143,6 @@ function addToCart(article) {
           parseInt(resultFind.productQuantity);
         resultFind.productQuantity = newQuantity;
         localStorage.setItem("produit", JSON.stringify(productLocalStorage));
-        console.table(productLocalStorage);
         window.location.href = "cart.html";
 
         /**
@@ -157,7 +151,6 @@ function addToCart(article) {
       } else {
         productLocalStorage.push(productOptions);
         localStorage.setItem("produit", JSON.stringify(productLocalStorage));
-        console.table(productLocalStorage);
         window.location.href = "cart.html";
       }
 
@@ -168,7 +161,6 @@ function addToCart(article) {
       productLocalStorage = [];
       productLocalStorage.push(productOptions);
       localStorage.setItem("produit", JSON.stringify(productLocalStorage));
-      console.table(productLocalStorage);
       window.location.href = "cart.html";
     }
   }
